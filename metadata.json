@@ -1,0 +1,8 @@
+{
+  "name": "ZENN BILLIARD VERSI DARK",
+  "description": "Professional real-time multiplayer 8-Ball billiard club with realistic physics, private rooms, quick match, ranked Elo leaderboards, and custom cues.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

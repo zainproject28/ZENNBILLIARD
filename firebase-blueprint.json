@@ -1,0 +1,620 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Public billiard player profile, progression, stats, and equipped cosmetic loadouts (zero PII).",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "playerId": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 24,
+          "pattern": "^[A-Z0-9\\-]+$"
+        },
+        "username": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 24,
+          "pattern": "^[a-zA-Z0-9_ .-]+$"
+        },
+        "authProvider": {
+          "type": "string",
+          "enum": ["google", "email", "guest"]
+        },
+        "location": {
+          "type": "object",
+          "description": "Coarse player region and rounded approximate coordinates (~1.1km precision) for nearby friend recommendations."
+        },
+        "avatar": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "customAvatarUrl": {
+          "type": "string",
+          "maxLength": 65000,
+          "pattern": "^(|data:image/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+)$"
+        },
+        "frame": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "equippedCue": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "equippedTable": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "equippedVenue": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "equippedEffect": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "ownedItems": {
+          "type": "array"
+        },
+        "level": {
+          "type": "number"
+        },
+        "xp": {
+          "type": "number"
+        },
+        "coins": {
+          "type": "number"
+        },
+        "rating": {
+          "type": "number"
+        },
+        "rankPoints": {
+          "type": "number"
+        },
+        "highestRankPoints": {
+          "type": "number"
+        },
+        "wins": {
+          "type": "number"
+        },
+        "losses": {
+          "type": "number"
+        },
+        "matches": {
+          "type": "number"
+        },
+        "stats": {
+          "type": "object"
+        },
+        "dailyStreak": {
+          "type": "number"
+        },
+        "lastDailyClaim": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "uid",
+        "playerId",
+        "username",
+        "avatar",
+        "frame",
+        "equippedCue",
+        "equippedTable",
+        "equippedEffect",
+        "ownedItems",
+        "level",
+        "xp",
+        "coins",
+        "rating",
+        "wins",
+        "losses",
+        "matches",
+        "dailyStreak",
+        "lastDailyClaim",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "Owner-only private user settings and email metadata.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 254
+        },
+        "musicEnabled": {
+          "type": "boolean"
+        },
+        "sfxEnabled": {
+          "type": "boolean"
+        },
+        "vibrationEnabled": {
+          "type": "boolean"
+        },
+        "graphicsQuality": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "language": {
+          "type": "string",
+          "enum": ["en", "id"]
+        },
+        "sensitivity": {
+          "type": "number"
+        },
+        "aimGuide": {
+          "type": "string",
+          "enum": ["standard", "pro"]
+        },
+        "musicVolume": {
+          "type": "number"
+        },
+        "keyBindings": {
+          "type": "object"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "uid",
+        "musicEnabled",
+        "sfxEnabled",
+        "vibrationEnabled",
+        "graphicsQuality",
+        "language",
+        "sensitivity",
+        "updatedAt"
+      ]
+    },
+    "FriendRelation": {
+      "title": "FriendRelation",
+      "description": "Friend request or accepted friendship between two players.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "friendId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "accepted"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "friendId", "status", "createdAt", "updatedAt"]
+    },
+    "PrivateRoom": {
+      "title": "PrivateRoom",
+      "description": "Private 1v1 or 2v2 (up to 4 players) room metadata and join status.",
+      "type": "object",
+      "properties": {
+        "roomId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "roomCode": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 6,
+          "pattern": "^[A-Z0-9]+$"
+        },
+        "hostId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "guestId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "entryFee": {
+          "type": "number"
+        },
+        "matchId": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "gameVariant": {
+          "type": "string",
+          "enum": ["8ball", "9ball"]
+        },
+        "matchFormat": {
+          "type": "string",
+          "enum": ["1v1", "2v2"]
+        },
+        "participants": {
+          "type": "array"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["waiting", "playing", "finished", "cancelled"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["roomId", "roomCode", "hostId", "guestId", "entryFee", "matchId", "status", "createdAt", "expiresAt"]
+    },
+    "MatchRecord": {
+      "title": "MatchRecord",
+      "description": "Match state summary and real-time sync payload for a 1v1 or 2v2 billiard match.",
+      "type": "object",
+      "properties": {
+        "matchId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "playerA": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "playerB": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "playerA2": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "playerB2": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "participants": {
+          "type": "array"
+        },
+        "gameMode": {
+          "type": "string",
+          "enum": ["quick_match", "private_room", "online_ranked", "practice"]
+        },
+        "gameVariant": {
+          "type": "string",
+          "enum": ["8ball", "9ball"]
+        },
+        "matchFormat": {
+          "type": "string",
+          "enum": ["1v1", "2v2"]
+        },
+        "currentTurn": {
+          "type": "string",
+          "enum": ["A", "B"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "completed", "cancelled"]
+        },
+        "winnerId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "entryFee": {
+          "type": "number"
+        },
+        "seq": {
+          "type": "number"
+        },
+        "winReason": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "balls": {
+          "type": "array"
+        },
+        "rules": {
+          "type": "object"
+        },
+        "lastAction": {
+          "type": "object"
+        },
+        "aimState": {
+          "type": "object"
+        },
+        "rematchStatus": {
+          "type": "string",
+          "enum": ["none", "pending", "accepted", "declined", "expired"]
+        },
+        "rematchRequesterUid": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "rematchExpiresAt": {
+          "type": "number"
+        },
+        "rematchNextMatchId": {
+          "type": "string",
+          "maxLength": 64
+        }
+      },
+      "required": ["matchId", "playerA", "playerB", "gameMode", "currentTurn", "status", "winnerId", "createdAt"]
+    },
+    "MatchHistoryEntry": {
+      "title": "MatchHistoryEntry",
+      "description": "Immutable per-player historical result of a completed match.",
+      "type": "object",
+      "properties": {
+        "matchId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "playerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "opponentName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "opponentAvatar": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "result": {
+          "type": "string",
+          "enum": ["win", "loss"]
+        },
+        "shots": {
+          "type": "number"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "xpEarned": {
+          "type": "number"
+        },
+        "coinsEarned": {
+          "type": "number"
+        },
+        "ratingDelta": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "matchId",
+        "playerId",
+        "opponentName",
+        "opponentAvatar",
+        "result",
+        "shots",
+        "duration",
+        "xpEarned",
+        "coinsEarned",
+        "ratingDelta",
+        "createdAt"
+      ]
+    },
+    "CoinTransaction": {
+      "title": "CoinTransaction",
+      "description": "Immutable virtual economy transaction log.",
+      "type": "object",
+      "properties": {
+        "transactionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["daily_reward", "match_reward", "match_entry", "shop_purchase", "starter_bonus"]
+        },
+        "referenceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["transactionId", "userId", "amount", "type", "referenceId", "createdAt"]
+    },
+    "RoomInvite": {
+      "title": "RoomInvite",
+      "description": "Direct invitation from a room host to a registered friend to join a Mabar Online room.",
+      "type": "object",
+      "properties": {
+        "inviteId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "roomId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "roomCode": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 6,
+          "pattern": "^[A-Z0-9]+$"
+        },
+        "hostId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "hostName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "hostAvatar": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "targetUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "entryFee": {
+          "type": "number"
+        },
+        "gameVariant": {
+          "type": "string",
+          "enum": ["8ball", "9ball"]
+        },
+        "matchFormat": {
+          "type": "string",
+          "enum": ["1v1", "2v2"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "accepted", "declined"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "inviteId",
+        "roomId",
+        "roomCode",
+        "hostId",
+        "hostName",
+        "hostAvatar",
+        "targetUid",
+        "entryFee",
+        "gameVariant",
+        "matchFormat",
+        "status",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Public player profile, stats, and cosmetics (no PII)."
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserPrivateInfo" },
+      "description": "Owner-only private user settings and email."
+    },
+    "/friends/{friendshipId}": {
+      "schema": { "$ref": "#/entities/FriendRelation" },
+      "description": "Friendship and pending friend requests."
+    },
+    "/rooms/{roomId}": {
+      "schema": { "$ref": "#/entities/PrivateRoom" },
+      "description": "Private 2-player or 4-player rooms."
+    },
+    "/room_invites/{inviteId}": {
+      "schema": { "$ref": "#/entities/RoomInvite" },
+      "description": "Cross-device Mabar Online invitations between host and friend."
+    },
+    "/matches/{matchId}": {
+      "schema": { "$ref": "#/entities/MatchRecord" },
+      "description": "Active and completed match metadata."
+    },
+    "/match_history/{historyId}": {
+      "schema": { "$ref": "#/entities/MatchHistoryEntry" },
+      "description": "Per-player match history entries."
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/CoinTransaction" },
+      "description": "Virtual coin transaction ledger."
+    }
+  }
+}
